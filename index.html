@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#080d0b">
+
+<title>MAANAK BHAI | Football Analysis</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+    --bg:#080d0b;
+    --green:#c5ff39;
+    --green2:#83c821;
+    --white:#f5f8f1;
+    --muted:#89958b;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html,body{
+    width:100%;
+    min-height:100%;
+}
+
+body{
+    background:var(--bg);
+    color:var(--white);
+    font-family:'Inter',sans-serif;
+    overflow-x:hidden;
+}
+
+/* MAIN SCREEN */
+
+.page{
+    min-height:100svh;
+    width:100%;
+    max-width:480px;
+    margin:auto;
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:22px 22px 18px;
+    isolation:isolate;
+}
+
+/* BACKGROUND */
+
+.page::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    z-index:-2;
+
+    background:
+    radial-gradient(ellipse at 50% 24%,rgba(155,255,45,.13),transparent 46%),
+    linear-gradient(180deg,#101b13 0%,#080d0b 65%);
+}
+
+/* STADIUM GRID */
+
+.grid{
+    position:absolute;
+    inset:0;
+    z-index:-1;
+    opacity:.12;
+
+    background-image:
+    linear-gradient(rgba(197,255,57,.20) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(197,255,57,.20) 1px,transparent 1px);
+
+    background-size:42px 42px;
+
+    mask-image:linear-gradient(to bottom,transparent,black 40%,transparent 95%);
+
+    pointer-events:none;
+}
+
+/* TOP LABEL */
+
+.top-label{
+    display:flex;
+    align-items:center;
+    gap:8px;
+
+    font-size:9px;
+    font-weight:800;
+    letter-spacing:2.2px;
+    color:var(--green);
+
+    margin-bottom:20px;
+}
+
+.top-label::before,
+.top-label::after{
+    content:"";
+    width:19px;
+    height:1px;
+    background:var(--green);
+    opacity:.65;
+}
+
+/* LOGO */
+
+.logo-area{
+    position:relative;
+    width:116px;
+    height:116px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    margin-bottom:17px;
+}
+
+.logo-ring{
+    position:absolute;
+    inset:0;
+    border:1px solid rgba(197,255,57,.40);
+    border-radius:50%;
+
+    box-shadow:
+    0 0 30px rgba(197,255,57,.08),
+    inset 0 0 20px rgba(197,255,57,.05);
+
+    animation:ring 4s ease-in-out infinite;
+}
+
+.logo-ring::before{
+    content:"";
+    position:absolute;
+    inset:-7px;
+    border-radius:50%;
+
+    border:1px dashed rgba(197,255,57,.20);
+
+    animation:rotate 35s linear infinite;
+}
+
+.logo{
+    width:94px;
+    height:94px;
+    border-radius:50%;
+    object-fit:cover;
+
+    border:3px solid var(--green);
+
+    background:#172019;
+
+    box-shadow:0 0 25px rgba(197,255,57,.18);
+}
+
+/* LIVE BADGE */
+
+.live{
+    display:flex;
+    align-items:center;
+    gap:7px;
+
+    border:1px solid rgba(197,255,57,.22);
+    background:rgba(197,255,57,.055);
+
+    padding:7px 13px;
+    border-radius:30px;
+
+    color:#cfff8c;
+    font-size:9px;
+    font-weight:800;
+    letter-spacing:1.1px;
+
+    margin-bottom:12px;
+}
+
+.dot{
+    height:7px;
+    width:7px;
+    background:var(--green);
+    border-radius:50%;
+
+    box-shadow:0 0 10px var(--green);
+
+    animation:blink 1.4s infinite;
+}
+
+/* BRANDING */
+
+.brand{
+    font-family:'Barlow Condensed',sans-serif;
+    font-size:clamp(54px,15vw,75px);
+    font-weight:900;
+    letter-spacing:-1.2px;
+    line-height:.90;
+    text-align:center;
+}
+
+.brand span{
+    color:var(--green);
+}
+
+.subtitle{
+    margin-top:13px;
+
+    font-size:10px;
+    font-weight:800;
+    letter-spacing:2.5px;
+
+    color:#aab9ab;
+    text-align:center;
+}
+
+/* DIVIDER */
+
+.divider{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    width:78%;
+    margin:23px 0 19px;
+}
+
+.divider span{
+    height:1px;
+    flex:1;
+    background:linear-gradient(90deg,transparent,rgba(197,255,57,.5));
+}
+
+.divider span:last-child{
+    transform:rotate(180deg);
+}
+
+.divider b{
+    color:var(--green);
+    font-size:13px;
+}
+
+/* FEATURES */
+
+.features{
+    display:flex;
+    justify-content:center;
+    gap:7px;
+    width:100%;
+}
+
+.feature{
+    background:#131c15;
+    border:1px solid #293a28;
+
+    border-radius:7px;
+    padding:10px 8px;
+
+    flex:1;
+    text-align:center;
+
+    color:#d9e7d2;
+    font-size:9px;
+    font-weight:700;
+    white-space:nowrap;
+}
+
+.feature strong{
+    color:var(--green);
+    margin-right:3px;
+}
+
+/* CTA SECTION */
+
+.cta-section{
+    width:100%;
+    margin-top:24px;
+    text-align:center;
+}
+
+.cta-heading{
+    font-family:'Barlow Condensed',sans-serif;
+    font-size:28px;
+    font-weight:800;
+    line-height:1.05;
+    letter-spacing:.2px;
+}
+
+.cta-heading span{
+    color:var(--green);
+}
+
+.cta-description{
+    margin-top:8px;
+    color:#a6b4a5;
+    font-size:11px;
+    line-height:1.6;
+}
+
+/* JOIN BUTTON */
+
+.join-btn{
+    position:relative;
+    width:100%;
+    margin-top:17px;
+
+    padding:18px 15px;
+
+    border:0;
+    border-radius:9px;
+
+    background:var(--green);
+    color:#101809;
+
+    font-family:'Inter',sans-serif;
+    font-size:15px;
+    font-weight:900;
+    letter-spacing:.5px;
+
+    cursor:pointer;
+
+    box-shadow:
+    0 5px 0 #6c9a1e,
+    0 0 28px rgba(197,255,57,.20);
+
+    animation:buttonGlow 2.5s ease-in-out infinite;
+
+    transition:transform .15s;
+}
+
+.join-btn:active{
+    transform:translateY(3px);
+    box-shadow:0 2px 0 #6c9a1e;
+}
+
+/* UNDER CTA */
+
+.below-btn{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:6px;
+
+    margin-top:17px;
+
+    font-size:9px;
+    font-weight:600;
+    color:#829184;
+}
+
+.below-btn span{
+    color:var(--green);
+}
+
+/* FOOTER */
+
+.footer{
+    margin-top:25px;
+    width:100%;
+    text-align:center;
+
+    border-top:1px solid rgba(255,255,255,.07);
+    padding-top:13px;
+}
+
+.footer p{
+    font-size:9px;
+    color:#69766c;
+    line-height:1.6;
+}
+
+.footer .brand-footer{
+    margin-top:6px;
+    font-size:8px;
+    letter-spacing:1.5px;
+    color:#536254;
+}
+
+/* ANIMATIONS */
+
+@keyframes blink{
+    0%,100%{opacity:1}
+    50%{opacity:.25}
+}
+
+@keyframes rotate{
+    to{transform:rotate(360deg)}
+}
+
+@keyframes ring{
+    0%,100%{
+        box-shadow:0 0 15px rgba(197,255,57,.07);
+    }
+    50%{
+        box-shadow:0 0 30px rgba(197,255,57,.20);
+    }
+}
+
+@keyframes buttonGlow{
+    0%,100%{
+        box-shadow:0 5px 0 #6c9a1e,0 0 15px rgba(197,255,57,.12);
+    }
+    50%{
+        box-shadow:0 5px 0 #6c9a1e,0 0 32px rgba(197,255,57,.35);
+    }
+}
+
+/* SMALL MOBILE */
+
+@media(max-height:740px){
+
+    .page{
+        padding-top:12px;
+        padding-bottom:12px;
+    }
+
+    .top-label{
+        margin-bottom:12px;
+    }
+
+    .logo-area{
+        width:96px;
+        height:96px;
+        margin-bottom:12px;
+    }
+
+    .logo{
+        width:78px;
+        height:78px;
+    }
+
+    .brand{
+        font-size:59px;
+    }
+
+    .divider{
+        margin:15px 0;
+    }
+
+    .cta-section{
+        margin-top:17px;
+    }
+
+    .footer{
+        margin-top:17px;
+    }
+}
+
+@media(max-width:350px){
+    .feature{
+        font-size:8px;
+        padding:9px 5px;
+    }
+
+    .brand{
+        font-size:54px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<main class="page">
+
+<div class="grid"></div>
+
+<!-- TOP BRANDING -->
+
+<div class="top-label">
+    THE FOOTBALL ANALYSIS HUB
+</div>
+
+<!-- CHANNEL LOGO -->
+
+<div class="logo-area">
+    <div class="logo-ring"></div>
+    <img src="logo.png" alt="Maanak Bhai Logo" class="logo">
+</div>
+
+<!-- STATUS -->
+
+<div class="live">
+    <span class="dot"></span>
+    FOOTBALL DISCUSSIONS ACTIVE
+</div>
+
+<!-- MAIN BRAND -->
+
+<h1 class="brand">
+    MAANAK <span>BHAI</span>
+</h1>
+
+<p class="subtitle">
+    FOOTBALL ANALYSIS & INSIGHTS
+</p>
+
+<!-- DIVIDER -->
+
+<div class="divider">
+    <span></span>
+    <b>✦</b>
+    <span></span>
+</div>
+
+<!-- HIGHLIGHTS -->
+
+<div class="features">
+
+    <div class="feature">
+        <strong>✓</strong> Match Insights
+    </div>
+
+    <div class="feature">
+        <strong>✓</strong> Game Analysis
+    </div>
+
+    <div class="feature">
+        <strong>✓</strong> Football Talk
+    </div>
+
+</div>
+
+<!-- CONVERSION SECTION -->
+
+<section class="cta-section">
+
+    <h2 class="cta-heading">
+        EVERY MATCH HAS A STORY.<br>
+        <span>BE PART OF THE DISCUSSION.</span>
+    </h2>
+
+    <p class="cta-description">
+        Explore football insights, match breakdowns<br>
+        and trading-related discussions with Maanak Bhai.
+    </p>
+
+    <!-- META EVENT SETUP FRIENDLY BUTTON -->
+
+    <button
+        class="join-btn"
+        type="button"
+        onclick="window.open('https://t.me/+RSLE33jzeaUwNjNl','_blank')">
+        JOIN MAANAK BHAI NOW →
+    </button>
+
+    <div class="below-btn">
+        <span>✦</span>
+        Your Football Community Awaits
+        <span>✦</span>
+    </div>
+
+</section>
+
+<!-- FOOTER -->
+
+<footer class="footer">
+
+    <p>
+        Independent football analysis & community discussions.<br>
+        Content is informational. No outcomes are guaranteed.
+    </p>
+
+    <div class="brand-footer">
+        © MAANAK BHAI • FOOTBALL COMMUNITY
+    </div>
+
+</footer>
+
+</main>
+
+</body>
+</html>
